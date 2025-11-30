@@ -16,14 +16,48 @@
 
         combos{
                 compatible = "zmk,combos";
+
+                // System combos
                 soft_off {
                         bindings = <&soft_off>;
                         key-positions = <0 35>;
+                        layers = <0>;
                 };
+
                 combo_studio_unlock {
                         timeout-ms = <50>;
-                        key-positions = <0 1>;
+                        key-positions = <0 11>;  // Top left + top right corners
                         bindings = <&studio_unlock>;
+                        layers = <0>;
+                };
+
+                // Convenience combos
+                combo_esc {
+                        timeout-ms = <50>;
+                        key-positions = <1 2>;  // Q + W
+                        bindings = <&kp ESC>;
+                        layers = <0>;
+                };
+
+                combo_tab {
+                        timeout-ms = <50>;
+                        key-positions = <13 14>;  // A + S
+                        bindings = <&kp TAB>;
+                        layers = <0>;
+                };
+
+                combo_enter {
+                        timeout-ms = <50>;
+                        key-positions = <20 21>;  // K + L
+                        bindings = <&kp RET>;
+                        layers = <0>;
+                };
+
+                combo_del {
+                        timeout-ms = <50>;
+                        key-positions = <9 10>;  // O + P
+                        bindings = <&kp DEL>;
+                        layers = <0>;
                 };
         };
 
@@ -32,14 +66,15 @@
 
                 default_layer {
 // -------------------------------------------------------------------------------------------------
-// |  TAB |  Q  |  W  |  E  |  R  |  T  |                    |  Y  |  U   |  I  |  O  |  P  | BKSP |
-// | CTRL |  A  |  S  |  D  |  F  |  G  |                    |  H  |  J   |  K  |  L  |  ;  |  '   |
-// | SHFT |  Z  |  X  |  C  |  V  |  B  |  MUTE  |  |        |  N  |  M   |  ,  |  .  |  /  | ESC  |
-//                    | GUI | LWR | ENT |                    | SPC | RSE  | ALT |
+// |  ESC |  Q  |  W  |  E  |  R  |  T  |                    |  Y  |  U   |  I  |  O  |  P  | BKSP |
+// |  TAB |  A  |  S  |  D  |  F  |  G  |                    |  H  |  J   |  K  |  L  |  ;  |  '   |
+// | TD0* |  Z  |  X  |  C  |  V  |  B  |  MUTE  |  |        |  N  |  M   |  ,  |  .  |  /  | RALT |
+//                    | GUI | LWR | ENT |                    | SPC | RSE  | CTRL|
+// *TD0: Tap=Shift, 2xTap=Ctrl, 3xTap=CapsWord
                         bindings = <
    &kp ESC   &kp Q &kp W &kp E &kp R &kp T                   &kp Y &kp U  &kp I     &kp O   &kp P    &kp BSPC
    &kp TAB   &kp A &kp S &kp D &kp F &kp G                   &kp H &kp J  &kp K     &kp L   &kp SEMI &kp SQT
-   &kp LSHFT &kp Z &kp X &kp C &kp V &kp B &kp C_MUTE  &none &kp N &kp M  &kp COMMA &kp DOT &kp FSLH &kp LALT
+   &td0      &kp Z &kp X &kp C &kp V &kp B &kp C_MUTE  &none &kp N &kp M  &kp COMMA &kp DOT &kp FSLH &kp RALT
                   &kp LGUI &mo 1 &kp RET                   &kp SPC &mo 2 &kp LCTRL
                         >;
 
@@ -47,15 +82,15 @@
                 };
                 lower_layer {
 // ------------------------------------------------------------------------------------------------
-// |  TAB |  1  |  2  |  3  |  4  |  5  |                    |  6  |  7  |  8  |  9  |  0  |  DEL |
-// | BTCLR| BT1 | BT2 | BT3 | BT4 | BT5 |                    | F6  |  F7 |  F8 |  F9 |  UP |  F12 |
-// | SHFT | F1  | F2  | F3  | F4  | F5  |  boot  |  |        | F11  |  F7 | F8  | LFT | DWN |  RGT |
-//                    | GUI |     | SPC |                    | ENT |     | ALT |
+// |  ESC |  1  |  2  |  3  |  4  |  5  |                    |  6  |  7  |  8  |  9  |  0  | BKSP |
+// | CAPS |  -  |  =  |  [  |  ]  |  \  |                    | F6  |  F7 |  F8 |  F9 |  UP |  F10 |
+// | SHFT | F1  | F2  | F3  | F4  | F5  |        |  |        | F11 | F12 |  `  | LFT | DWN |  RGT |
+//                    | GUI |     | RET |                    | SPC |     | ALT |
                         bindings = <
-   &kp ESC    &kp N1  &kp N2    &kp N3   &kp N4   &kp N5                           &kp N6   &kp N7   &kp N8 &kp N9    &kp N0   &kp BSPC
-   &kp CAPS  &trans  &trans    &trans   &trans   &trans                           &kp F6   &kp F7   &kp F8 &kp F9    &kp UP   &kp F10
-   &kp LSHFT  &kp F1  &kp F2    &kp F3   &kp F4   &kp F5   &bt BT_SEL 4  &none &kp F11  &kp F12  &trans     &kp LEFT  &kp DOWN &kp RIGHT
-                           &kp LGUI     &trans    &kp RET                &kp SPC  &trans   &kp LCTRL
+   &kp ESC    &kp N1     &kp N2    &kp N3   &kp N4   &kp N5                        &kp N6   &kp N7   &kp N8    &kp N9    &kp N0   &kp BSPC
+   &kp CAPS   &kp MINUS  &kp EQUAL &kp LBKT &kp RBKT &kp BSLH                      &kp F6   &kp F7   &kp F8    &kp F9    &kp UP   &kp F10
+   &kp LSHFT  &kp F1     &kp F2    &kp F3   &kp F4   &kp F5   &trans     &none     &kp F11  &kp F12  &kp GRAVE &kp LEFT  &kp DOWN &kp RIGHT
+                                   &kp LGUI &trans   &kp RET                        &kp SPC  &trans   &kp LALT
                         >;
 
                         sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
@@ -63,18 +98,46 @@
 
                 raise_layer {
 // ------------------------------------------------------------------------------------------------
-// |  TAB |  !  |  @  |  #  |  $  |  %  |                    |  ^  |  &  |  *  |  (  |  )  | BKSP |
-// | BTCLR| BT0 | BT1 | BT2 | BT3 | BOOT|                    |  -  |  =  |  [  |  ]  |  \  |  `   |
-// | SHFT |     |     | PREV| PLAY| NXT |     |     |  boot  |  _  |  +  |  {  |  }  | "|" |  ~   |
-//                    | MUTE|     | SPC |                    | BRI+|     | BRI-|
+// |  TAB |  !  |  @  |  #  |  $  |  %  |                    |  ^  |  &  |  *  |  (  |  )  |  DEL |
+// | BTCLR| BT0 | BT1 | BT2 | BT3 | BT4 |                    |  -  |  =  |  {  |  }  |  |  |  `   |
+// | SHFT |     |     | PREV| PLAY| NEXT|  BOOT  |  | BOOT  |  _  |  +  |  [  |  ]  |  \  |  ~   |
+//                    | CTRL|     | RET |                    | BRI+|     | BRI-|
                         bindings = <
-   &kp  TAB   &kp EXCL &kp AT &kp HASH &kp DLLR &kp PRCNT                       &kp CARET &kp AMPS  &kp KP_MULTIPLY &kp LPAR &kp RPAR &kp DEL
-   &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bootloader   &kp MINUS &kp EQUAL &kp LBKT &kp RBKT &kp BSLH &kp GRAVE
-   &kp LSHFT  &trans   &trans &kp C_PREV   &kp C_PLAY   &kp C_NEXT &none &bootloader &kp UNDER &kp PLUS  &kp LBRC &kp RBRC &kp PIPE &kp TILDE
-                             &kp LCTRL &trans   &kp RET                    &kp C_BRI_INC   &trans    &kp C_BRI_DEC
+   &kp TAB    &kp EXCL &kp AT &kp HASH &kp DLLR &kp PRCNT                         &kp CARET &kp AMPS  &kp ASTRK &kp LPAR &kp RPAR &kp DEL
+   &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4   &kp MINUS &kp EQUAL &kp LBRC  &kp RBRC &kp PIPE &kp GRAVE
+   &kp LSHFT  &trans   &trans &kp C_PREV &kp C_PLAY &kp C_NEXT &bootloader &bootloader &kp UNDER &kp PLUS  &kp LBKT  &kp RBKT &kp BSLH &kp TILDE
+                             &kp LCTRL &trans   &kp RET                           &kp C_BRI_INC &trans &kp C_BRI_DEC
                         >;
 
                         sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+                };
+
+                // Empty layers for ZMK Studio customization
+                layer_3 {
+                        bindings = <
+   &trans &trans &trans &trans &trans &trans                   &trans &trans &trans &trans &trans &trans
+   &trans &trans &trans &trans &trans &trans                   &trans &trans &trans &trans &trans &trans
+   &trans &trans &trans &trans &trans &trans &trans &trans     &trans &trans &trans &trans &trans &trans
+                        &trans &trans &trans                   &trans &trans &trans
+                        >;
+                };
+
+                layer_4 {
+                        bindings = <
+   &trans &trans &trans &trans &trans &trans                   &trans &trans &trans &trans &trans &trans
+   &trans &trans &trans &trans &trans &trans                   &trans &trans &trans &trans &trans &trans
+   &trans &trans &trans &trans &trans &trans &trans &trans     &trans &trans &trans &trans &trans &trans
+                        &trans &trans &trans                   &trans &trans &trans
+                        >;
+                };
+
+                layer_5 {
+                        bindings = <
+   &trans &trans &trans &trans &trans &trans                   &trans &trans &trans &trans &trans &trans
+   &trans &trans &trans &trans &trans &trans                   &trans &trans &trans &trans &trans &trans
+   &trans &trans &trans &trans &trans &trans &trans &trans     &trans &trans &trans &trans &trans &trans
+                        &trans &trans &trans                   &trans &trans &trans
+                        >;
                 };
         };
 };
